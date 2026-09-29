@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Utility Generator - strumenti casuali e generatori online">
+<title>Utility Generator</title>
+
+<style>
+:root {
+    --bg: #080d18;
+    --sidebar: #0d1424;
+    --card: #111a2c;
+    --card2: #172239;
+    --border: rgba(255,255,255,.08);
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --blue: #5b8cff;
+    --purple: #8b5cf6;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 80% 0%,
+            rgba(91,140,255,.15),
+            transparent 28%
+        ),
+        var(--bg);
+
+    color: var(--text);
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 270px;
+    flex-shrink: 0;
+
+    background: rgba(13,20,36,.96);
+    border-right: 1px solid var(--border);
+
+    padding: 25px 17px;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    padding: 5px 10px 30px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    box-shadow:
+        0 8px 25px rgba(91,140,255,.25);
+}
+
+.logo-icon::after {
+    content: "✦";
+    font-size: 19px;
+}
+
+.menu-title {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    padding: 20px 12px 9px;
+}
+
+.tool-btn {
+    width: 100%;
+
+    border: 0;
+    background: transparent;
+
+    color: #aab6ca;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px;
+    margin: 3px 0;
+
+    border-radius: 9px;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.tool-btn:hover {
+    background: rgba(255,255,255,.05);
+    color: white;
+}
+
+.tool-btn.active {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(91,140,255,.18),
+            rgba(139,92,246,.08)
+        );
+
+    color: white;
+}
+
+.tool-icon {
+    width: 28px;
+    text-align: center;
+    font-size: 17px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: 270px;
+    width: calc(100% - 270px);
+}
+
+.topbar {
+    height: 72px;
+
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 35px;
+
+    background: rgba(8,13,24,.72);
+    backdrop-filter: blur(15px);
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.topbar-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+}
+
+.content {
+    max-width: 1050px;
+    margin: auto;
+    padding: 45px 25px 70px;
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome {
+    margin-bottom: 35px;
+}
+
+.welcome .tag {
+    display: inline-block;
+
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    background: rgba(91,140,255,.1);
+    color: #9db7ff;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    margin-bottom: 15px;
+}
+
+.welcome h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+
+    margin-bottom: 13px;
+}
+
+.gradient {
+    background:
+        linear-gradient(
+            90deg,
+            #5b8cff,
+            #a78bfa
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.welcome p {
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+/* =========================
+   TOOL PANEL
+========================= */
+
+.panel {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.2);
+}
+
+.tool {
+    display: none;
+}
+
+.tool.active {
+    display: block;
+    animation: fade .2s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tool-header {
+    margin-bottom: 25px;
+}
+
+.tool-header h2 {
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+
+.tool-header p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input,
+select {
+    width: 100%;
+
+    background: #09111f;
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    color: white;
+
+    padding: 12px 13px;
+
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(91,140,255,.08);
+}
+
+input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--blue);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.primary {
+    width: 100%;
+
+    border: 0;
+    border-radius: 11px;
+
+    padding: 14px 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    color: white;
+
+    font-weight: 800;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.secondary {
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: white;
+
+    border-radius: 10px;
+
+    padding: 11px 15px;
+
+    cursor: pointer;
+}
+
+.secondary:hover {
+    background: #20304d;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+    margin-top: 22px;
+
+    background: #080e1a;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    padding: 18px;
+}
+
+.result-value {
+    font-family: monospace;
+
+    font-size: 20px;
+
+    word-break: break-all;
+
+    color: white;
+
+    margin-bottom: 13px;
+}
+
+.result-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.result-actions button {
+    flex: 1;
+}
+
+/* =========================
+   CHECKBOXES
+========================= */
+
+.checks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+
+    margin-bottom: 18px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: rgba(255,255,255,.015);
+
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+/* =========================
+   COLOR
+========================= */
+
+.color-preview {
+    height: 170px;
+
+    border-radius: 15px;
+
+    border: 1px solid var(--border);
+
+    margin-bottom: 18px;
+
+    display: flex;
+    align-items: flex-end;
+
+    padding: 15px;
+
+    transition: .3s;
+}
+
+.color-label {
+    background: rgba(0,0,0,.45);
+
+    backdrop-filter: blur(8px);
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    font-family: monospace;
+}
+
+/* =========================
+   STRENGTH
+========================= */
+
+.strength-box {
+    margin-top: 18px;
+}
+
+.strength-header {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+}
+
+.strength-bar {
+    height: 10px;
+
+    background: #202b42;
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+.strength-fill {
+    width: 0%;
+    height: 100%;
+
+    border-radius: inherit;
+
+    transition: .3s;
+}
+
+.check-list {
+    margin-top: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 8px;
+}
+
+.check-item {
+    padding: 9px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(255,255,255,.03);
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.check-item.ok {
+    color: #86efac;
+    background: rgba(34,197,94,.08);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width: 850px) {
+
+    .sidebar {
+        width: 75px;
+        padding: 20px 10px;
+    }
+
+    .logo {
+        justify-content: center;
+        padding-bottom: 20px;
+    }
+
+    .logo span {
+        display: none;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .tool-btn {
+        justify-content: center;
+        padding: 12px 5px;
+    }
+
+    .tool-btn span:last-child {
+        display: none;
+    }
+
+    .tool-icon {
+        width: auto;
+    }
+
+    .main {
+        margin-left: 75px;
+        width: calc(100% - 75px);
+    }
+}
+
+@media(max-width: 600px) {
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .content {
+        padding: 30px 15px;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .form-grid,
+    .checks,
+    .check-list {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome h1 {
+        font-size: 36px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon"></div>
+        <span>UtilityLab</span>
+    </div>
+
+    <div class="menu-title">
+        Generatori
+    </div>
+
+    <button class="tool-btn active" onclick="showTool('password', this)">
+        <span class="tool-icon">🔐</span>
+        <span>Password</span>
+    </button>
+
+    <button class="tool-btn" onclick="showTool('username', this)">
+        <span class="tool-icon">👤</span>
+        <span>Username</span>
+    </button>
+
+    <button class="tool-btn" onclick="showTool('pin', this)">
+        <span class="tool-icon">🔢</span>
+        <span>PIN</span>
+    </button>
+
+    <button class="tool-btn" onclick="showTool('number', this)">
+        <span class="tool-icon">🎲</span>
+        <span>Numeri casuali</span>
+    </button>
+
+    <button class="tool-btn" onclick="showTool('color', this)">
+        <span class="tool-icon">🎨</span>
+        <span>Colori</span>
+    </button>
+
+    <div class="menu-title">
+        Analisi
+    </div>
+
+    <button class="tool-btn" onclick="showTool('strength', this)">
+        <span class="tool-icon">📊</span>
+        <span>Password Check</span>
+    </button>
+
+    <div class="menu-title">
+        Utilità
+    </div>
+
+    <button class="tool-btn" onclick="showTool('date', this)">
+        <span class="tool-icon">📅</span>
+        <span>Date casuali</span>
+    </button>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div class="topbar-title">
+        Utility Generator
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        Generazione locale
+    </div>
+
+</header>
+
+
+<div class="content">
+
+<section class="welcome">
+
+    <div class="tag">
+        MULTI TOOL
+    </div>
+
+    <h1>
+        Tutti i tuoi strumenti
+        <span class="gradient">in un posto.</span>
+    </h1>
+
+    <p>
+        Genera password, username, PIN, numeri,
+        colori e date casuali. Analizza inoltre
+        la robustezza delle tue password.
+    </p>
+
+</section>
+
+
+<div class="panel">
+
+
+<!-- =====================================================
+     PASSWORD
+===================================================== -->
+
+<section class="tool active" id="tool-password">
+
+    <div class="tool-header">
+
+        <h2>🔐 Password Generator</h2>
+
+        <p>
+            Crea password casuali personalizzabili.
+        </p>
+
+    </div>
+
+    <div class="field">
+
+        <label>Lunghezza</label>
+
+        <input
+            type="number"
+            id="passwordLength"
+            min="8"
+            max="128"
+            value="20"
+        >
+
+    </div>
+
+    <div class="checks">
+
+        <label class="check">
+            <input type="checkbox" id="passUpper" checked>
+            Maiuscole
+        </label>
+
+        <label class="check">
+            <input type="checkbox" id="passLower" checked>
+            Minuscole
+        </label>
+
+        <label class="check">
+            <input type="checkbox" id="passNumbers" checked>
+            Numeri
+        </label>
+
+        <label class="check">
+            <input type="checkbox" id="passSymbols" checked>
+            Simboli
+        </label>
+
+    </div>
+
+    <button class="primary" onclick="generatePassword()">
+        ⚡ Genera password
+    </button>
+
+    <div class="result">
+
+        <div class="result-value" id="passwordResult">
+            —
+        </div>
+
+        <div class="result-actions">
+
+            <button
+                class="secondary"
+                onclick="copyText('passwordResult')">
+                📋 Copia
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     USERNAME
+===================================================== -->
+
+<section class="tool" id="tool-username">
+
+    <div class="tool-header">
+
+        <h2>👤 Username Generator</h2>
+
+        <p>
+            Genera username casuali per account,
+            profili e servizi online.
+        </p>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="field">
+
+            <label>Parola opzionale</label>
+
+            <input
+                id="usernameWord"
+                type="text"
+                placeholder="es. Alex"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Numero di username</label>
+
+            <input
+                id="usernameCount"
+                type="number"
+                min="1"
+                max="20"
+                value="5"
+            >
+
+        </div>
+
+    </div>
+
+    <div class="checks">
+
+        <label class="check">
+            <input
+                type="checkbox"
+                id="usernameNumbers"
+                checked
+            >
+            Aggiungi numeri
+        </label>
+
+        <label class="check">
+            <input
+                type="checkbox"
+                id="usernameUnderscore"
+                checked
+            >
+            Usa underscore
+        </label>
+
+    </div>
+
+    <button
+        class="primary"
+        onclick="generateUsernames()">
+        ✨ Genera username
+    </button>
+
+    <div class="result">
+
+        <div
+            class="result-value"
+            id="usernameResult">
+            —
+        </div>
+
+        <button
+            class="secondary"
+            onclick="copyText('usernameResult')">
+            📋 Copia tutto
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PIN
+===================================================== -->
+
+<section class="tool" id="tool-pin">
+
+    <div class="tool-header">
+
+        <h2>🔢 PIN Generator</h2>
+
+        <p>
+            Genera PIN numerici casuali da 4 a 20 cifre.
+        </p>
+
+    </div>
+
+    <div class="field">
+
+        <label>Numero di cifre</label>
+
+        <input
+            id="pinLength"
+            type="number"
+            min="4"
+            max="20"
+            value="6"
+        >
+
+    </div>
+
+    <label class="check">
+
+        <input
+            type="checkbox"
+            id="pinNoRepeat"
+        >
+
+        Evita cifre ripetute
+
+    </label>
+
+    <br>
+
+    <button
+        class="primary"
+        onclick="generatePin()">
+        🔢 Genera PIN
+    </button>
+
+    <div class="result">
+
+        <div
+            class="result-value"
+            id="pinResult">
+            —
+        </div>
+
+        <button
+            class="secondary"
+            onclick="copyText('pinResult')">
+            📋 Copia
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RANDOM NUMBER
+===================================================== -->
+
+<section class="tool" id="tool-number">
+
+    <div class="tool-header">
+
+        <h2>🎲 Random Number Generator</h2>
+
+        <p>
+            Genera uno o più numeri casuali
+            all'interno dell'intervallo scelto.
+        </p>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="field">
+
+            <label>Minimo</label>
+
+            <input
+                id="numberMin"
+                type="number"
+                value="1"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Massimo</label>
+
+            <input
+                id="numberMax"
+                type="number"
+                value="100"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Quantità</label>
+
+            <input
+                id="numberCount"
+                type="number"
+                min="1"
+                max="100"
+                value="1"
+            >
+
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        onclick="generateNumbers()">
+        🎲 Genera numeri
+    </button>
+
+    <div class="result">
+
+        <div
+            class="result-value"
+            id="numberResult">
+            —
+        </div>
+
+        <button
+            class="secondary"
+            onclick="copyText('numberResult')">
+            📋 Copia
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COLOR
+===================================================== -->
+
+<section class="tool" id="tool-color">
+
+    <div class="tool-header">
+
+        <h2>🎨 Color Generator</h2>
+
+        <p>
+            Genera un colore casuale e visualizza
+            HEX, RGB e HSL.
+        </p>
+
+    </div>
+
+    <div
+        class="color-preview"
+        id="colorPreview">
+
+        <div
+            class="color-label"
+            id="colorHexPreview">
+            #000000
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        onclick="generateColor()">
+        🎨 Genera colore
+    </button>
+
+    <div class="result">
+
+        <div class="form-grid">
+
+            <div>
+                <label>HEX</label>
+                <input id="colorHex" readonly>
+            </div>
+
+            <div>
+                <label>RGB</label>
+                <input id="colorRgb" readonly>
+            </div>
+
+            <div>
+                <label>HSL</label>
+                <input id="colorHsl" readonly>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button
+            class="secondary"
+            onclick="copyText('colorHex')">
+            📋 Copia HEX
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSWORD STRENGTH
+===================================================== -->
+
+<section class="tool" id="tool-strength">
+
+    <div class="tool-header">
+
+        <h2>📊 Password Strength Checker</h2>
+
+        <p>
+            Analizza localmente la robustezza
+            della password inserita.
+        </p>
+
+    </div>
+
+    <div class="field">
+
+        <label>Password da analizzare</label>
+
+        <input
+            id="checkPassword"
+            type="password"
+            placeholder="Inserisci una password..."
+            oninput="checkStrength()"
+        >
+
+    </div>
+
+    <div class="strength-box">
+
+        <div class="strength-header">
+
+            <span>Sicurezza</span>
+
+            <strong id="strengthLabel">
+                —
+            </strong>
+
+        </div>
+
+        <div class="strength-bar">
+
+            <div
+                class="strength-fill"
+                id="strengthFill">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="check-list">
+
+        <div
+            class="check-item"
+            id="ruleLength">
+            ○ Almeno 12 caratteri
+        </div>
+
+        <div
+            class="check-item"
+            id="ruleUpper">
+            ○ Lettere maiuscole
+        </div>
+
+        <div
+            class="check-item"
+            id="ruleLower">
+            ○ Lettere minuscole
+        </div>
+
+        <div
+            class="check-item"
+            id="ruleNumber">
+            ○ Numeri
+        </div>
+
+        <div
+            class="check-item"
+            id="ruleSymbol">
+            ○ Simboli
+        </div>
+
+        <div
+            class="check-item"
+            id="ruleLong">
+            ○ Almeno 16 caratteri
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     DATE
+===================================================== -->
+
+<section class="tool" id="tool-date">
+
+    <div class="tool-header">
+
+        <h2>📅 Date Generator</h2>
+
+        <p>
+            Genera date casuali all'interno
+            di un intervallo personalizzato.
+        </p>
+
+    </div>
+
+    <div class="form-grid">
+
+        <div class="field">
+
+            <label>Data iniziale</label>
+
+            <input
+                id="dateFrom"
+                type="date"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Data finale</label>
+
+            <input
+                id="dateTo"
+                type="date"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Numero di date</label>
+
+            <input
+                id="dateCount"
+                type="number"
+                min="1"
+                max="50"
+                value="1"
+            >
+
+        </div>
+
+    </div>
+
+    <button
+        class="primary"
+        onclick="generateDates()">
+        📅 Genera date
+    </button>
+
+    <div class="result">
+
+        <div
+            class="result-value"
+            id="dateResult">
+            —
+        </div>
+
+        <button
+            class="secondary"
+            onclick="copyText('dateResult')">
+            📋 Copia
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+</div>
+
+
+<footer>
+    UtilityLab · Tutti gli strumenti vengono eseguiti localmente nel browser.
+</footer>
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   NAVIGAZIONE
+===================================================== */
+
+function showTool(name, button) {
+
+    document
+        .querySelectorAll(".tool")
+        .forEach(tool => {
+            tool.classList.remove("active");
+        });
+
+    document
+        .getElementById("tool-" + name)
+        .classList.add("active");
+
+    document
+        .querySelectorAll(".tool-btn")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+}
+
+
+/* =====================================================
+   RANDOM CRITTOGRAFICO
+===================================================== */
+
+function secureRandom(max) {
+
+    if (max <= 0)
+        return 0;
+
+    const array =
+        new Uint32Array(1);
+
+    const limit =
+        Math.floor(
+            0x100000000 / max
+        ) * max;
+
+    let value;
+
+    do {
+
+        crypto.getRandomValues(array);
+
+        value = array[0];
+
+    } while (value >= limit);
+
+    return value % max;
+}
+
+
+function randomChar(string) {
+
+    return string[
+        secureRandom(string.length)
+    ];
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+async function copyText(id) {
+
+    const element =
+        document.getElementById(id);
+
+    let text = "";
+
+    if (
+        element.tagName === "INPUT" ||
+        element.tagName === "TEXTAREA"
+    ) {
+        text = element.value;
+    } else {
+        text = element.innerText;
+    }
+
+    if (!text || text === "—")
+        return;
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        alert("Copiato negli appunti!");
+
+    } catch {
+
+        const area =
+            document.createElement("textarea");
+
+        area.value = text;
+
+        document.body.appendChild(area);
+
+        area.select();
+
+        document.execCommand("copy");
+
+        area.remove();
+
+        alert("Copiato negli appunti!");
+    }
+}
+
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+function generatePassword() {
+
+    let length =
+        Number(
+            document.getElementById(
+                "passwordLength"
+            ).value
+        );
+
+    length =
+        Math.max(8, Math.min(128, length));
+
+    const sets = [];
+
+    if (
+        document.getElementById(
+            "passUpper"
+        ).checked
+    ) {
+        sets.push(
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        );
+    }
+
+    if (
+        document.getElementById(
+            "passLower"
+        ).checked
+    ) {
+        sets.push(
+            "abcdefghijklmnopqrstuvwxyz"
+        );
+    }
+
+    if (
+        document.getElementById(
+            "passNumbers"
+        ).checked
+    ) {
+        sets.push(
+            "0123456789"
+        );
+    }
+
+    if (
+        document.getElementById(
+            "passSymbols"
+        ).checked
+    ) {
+        sets.push(
+            "!@#$%^&*()-_=+[]{};:,.?/"
+        );
+    }
+
+    if (sets.length === 0) {
+
+        sets.push(
+            "abcdefghijklmnopqrstuvwxyz"
+        );
+    }
+
+    let charset =
+        sets.join("");
+
+    let password = "";
+
+    /* Una caratteristica da ogni categoria */
+
+    sets.forEach(set => {
+
+        if (password.length < length) {
+
+            password +=
+                randomChar(set);
+        }
+    });
+
+    /* Completa */
+
+    while (password.length < length) {
+
+        password +=
+            randomChar(charset);
+    }
+
+    /* Fisher-Yates */
+
+    const chars =
+        password.split("");
+
+    for (
+        let i = chars.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            secureRandom(i + 1);
+
+        [
+            chars[i],
+            chars[j]
+        ] = [
+            chars[j],
+            chars[i]
+        ];
+    }
+
+    document.getElementById(
+        "passwordResult"
+    ).textContent =
+        chars.join("");
+}
+
+
+/* =====================================================
+   USERNAME
+===================================================== */
+
+const adjectives = [
+    "Silent",
+    "Swift",
+    "Bright",
+    "Dark",
+    "Lucky",
+    "Rapid",
+    "Cool",
+    "Smart",
+    "Wild",
+    "Cyber",
+    "Blue",
+    "Silver",
+    "Golden",
+    "Hidden",
+    "Pixel",
+    "Cosmic",
+    "Digital",
+    "Shadow"
+];
+
+const nouns = [
+    "Fox",
+    "Wolf",
+    "Tiger",
+    "Eagle",
+    "Falcon",
+    "Raven",
+    "Lion",
+    "Dragon",
+    "Ninja",
+    "Pixel",
+    "Storm",
+    "Cloud",
+    "Hunter",
+    "Rocket",
+    "Galaxy",
+    "Phoenix",
+    "Knight",
+    "Ghost"
+];
+
+function generateUsernames() {
+
+    const count =
+        Math.max(
+            1,
+            Math.min(
+                20,
+                Number(
+                    document.getElementById(
+                        "usernameCount"
+                    ).value
+                )
+            )
+        );
+
+    const word =
+        document.getElementById(
+            "usernameWord"
+        ).value.trim();
+
+    const numbers =
+        document.getElementById(
+            "usernameNumbers"
+        ).checked;
+
+    const underscore =
+        document.getElementById(
+            "usernameUnderscore"
+        ).checked;
+
+    const results = [];
+
+    for (let i = 0; i < count; i++) {
+
+        let username;
+
+        if (word) {
+
+            const adjective =
+                adjectives[
+                    secureRandom(
+                        adjectives.length
+                    )
+                ];
+
+            username =
+                word +
+                (underscore ? "_" : "") +
+                adjective;
+
+        } else {
+
+            const adjective =
+                adjectives[
+                    secureRandom(
+                        adjectives.length
+                    )
+                ];
+
+            const noun =
+                nouns[
+                    secureRandom(
+                        nouns.length
+                    )
+                ];
+
+            username =
+                adjective +
+                (underscore ? "_" : "") +
+                noun;
+        }
+
+        if (numbers) {
+
+            username +=
+                secureRandom(10000)
+                .toString()
+                .padStart(4, "0");
+        }
+
+        results.push(username);
+    }
+
+    document.getElementById(
+        "usernameResult"
+    ).innerText =
+        results.join("\n");
+}
+
+
+/* =====================================================
+   PIN
+===================================================== */
+
+function generatePin() {
+
+    let length =
+        Number(
+            document.getElementById(
+                "pinLength"
+            ).value
+        );
+
+    length =
+        Math.max(4, Math.min(20, length));
+
+    const noRepeat =
+        document.getElementById(
+            "pinNoRepeat"
+        ).checked;
+
+    let digits =
+        "0123456789";
+
+    let pin = "";
+
+    if (noRepeat && length > 10) {
+
+        alert(
+            "Non è possibile generare un PIN di oltre 10 cifre senza ripetizioni."
+        );
+
+        return;
+    }
+
+    while (pin.length < length) {
+
+        const digit =
+            randomChar(digits);
+
+        if (
+            noRepeat &&
+            pin.includes(digit)
+        ) {
+            continue;
+        }
+
+        pin += digit;
+    }
+
+    document.getElementById(
+        "pinResult"
+    ).textContent =
+        pin;
+}
+
+
+/* =====================================================
+   RANDOM NUMBERS
+===================================================== */
+
+function generateNumbers() {
+
+    let min =
+        Number(
+            document.getElementById(
+                "numberMin"
+            ).value
+        );
+
+    let max =
+        Number(
+            document.getElementById(
+                "numberMax"
+            ).value
+        );
+
+    const count =
+        Math.max(
+            1,
+            Math.min(
+                100,
+                Number(
+                    document.getElementById(
+                        "numberCount"
+                    ).value
+                )
+            )
+        );
+
+    if (min > max) {
+
+        [min, max] =
+            [max, min];
+    }
+
+    const results = [];
+
+    const range =
+        max - min + 1;
+
+    if (
+        !Number.isSafeInteger(min) ||
+        !Number.isSafeInteger(max) ||
+        range <= 0 ||
+        range > 4294967296
+    ) {
+
+        document.getElementById(
+            "numberResult"
+        ).textContent =
+            "Intervallo non valido.";
+
+        return;
+    }
+
+    for (let i = 0; i < count; i++) {
+
+        results.push(
+            min +
+            secureRandom(range)
+        );
+    }
+
+    document.getElementById(
+        "numberResult"
+    ).textContent =
+        results.join(", ");
+}
+
+
+/* =====================================================
+   COLOR
+===================================================== */
+
+function generateColor() {
+
+    const r =
+        secureRandom(256);
+
+    const g =
+        secureRandom(256);
+
+    const b =
+        secureRandom(256);
+
+    const hex =
+        "#" +
+        [r,g,b]
+        .map(
+            value =>
+                value
+                    .toString(16)
+                    .padStart(2,"0")
+        )
+        .join("")
+        .toUpperCase();
+
+    const rgb =
+        `rgb(${r}, ${g}, ${b})`;
+
+    const hsl =
+        rgbToHsl(r,g,b);
+
+    document.getElementById(
+        "colorPreview"
+    ).style.background =
+        hex;
+
+    document.getElementById(
+        "colorHexPreview"
+    ).textContent =
+        hex;
+
+    document.getElementById(
+        "colorHex"
+    ).value =
+        hex;
+
+    document.getElementById(
+        "colorRgb"
+    ).value =
+        rgb;
+
+    document.getElementById(
+        "colorHsl"
+    ).value =
+        hsl;
+}
+
+
+function rgbToHsl(r,g,b) {
+
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    const max =
+        Math.max(r,g,b);
+
+    const min =
+        Math.min(r,g,b);
+
+    let h;
+    let s;
+
+    const l =
+        (max + min) / 2;
+
+    if (max === min) {
+
+        h = 0;
+        s = 0;
+
+    } else {
+
+        const d =
+            max - min;
+
+        s =
+            l > .5
+                ? d / (2 - max - min)
+                : d / (max + min);
+
+        switch(max) {
+
+            case r:
+                h =
+                    (g - b) / d +
+                    (g < b ? 6 : 0);
+                break;
+
+            case g:
+                h =
+                    (b - r) / d + 2;
+                break;
+
+            default:
+                h =
+                    (r - g) / d + 4;
+        }
+
+        h /= 6;
+    }
+
+    return `
+HSL(
+${Math.round(h * 360)},
+${Math.round(s * 100)}%,
+${Math.round(l * 100)}%
+)`.replace(/\n/g,"");
+}
+
+
+/* =====================================================
+   PASSWORD STRENGTH
+===================================================== */
+
+function checkStrength() {
+
+    const password =
+        document.getElementById(
+            "checkPassword"
+        ).value;
+
+    const hasLength =
+        password.length >= 12;
+
+    const hasUpper =
+        /[A-Z]/.test(password);
+
+    const hasLower =
+        /[a-z]/.test(password);
+
+    const hasNumber =
+        /[0-9]/.test(password);
+
+    const hasSymbol =
+        /[^A-Za-z0-9]/.test(password);
+
+    const isLong =
+        password.length >= 16;
+
+
+    setRule(
+        "ruleLength",
+        hasLength,
+        "Almeno 12 caratteri"
+    );
+
+    setRule(
+        "ruleUpper",
+        hasUpper,
+        "Lettere maiuscole"
+    );
+
+    setRule(
+        "ruleLower",
+        hasLower,
+        "Lettere minuscole"
+    );
+
+    setRule(
+        "ruleNumber",
+        hasNumber,
+        "Numeri"
+    );
+
+    setRule(
+        "ruleSymbol",
+        hasSymbol,
+        "Simboli"
+    );
+
+    setRule(
+        "ruleLong",
+        isLong,
+        "Almeno 16 caratteri"
+    );
+
+
+    let score = 0;
+
+    if (hasLength)
+        score++;
+
+    if (hasUpper)
+        score++;
+
+    if (hasLower)
+        score++;
+
+    if (hasNumber)
+        score++;
+
+    if (hasSymbol)
+        score++;
+
+    if (isLong)
+        score++;
+
+
+    const fill =
+        document.getElementById(
+            "strengthFill"
+        );
+
+    const label =
+        document.getElementById(
+            "strengthLabel"
+        );
+
+
+    let width;
+    let color;
+    let text;
+
+
+    if (!password) {
+
+        width = 0;
+        color = "#475569";
+        text = "—";
+
+    } else if (score <= 2) {
+
+        width = 25;
+        color = "#ef4444";
+        text = "Debole";
+
+    } else if (score <= 4) {
+
+        width = 60;
+        color = "#f59e0b";
+        text = "Media";
+
+    } else {
+
+        width = 100;
+        color = "#22c55e";
+        text = "Forte";
+    }
+
+
+    fill.style.width =
+        width + "%";
+
+    fill.style.background =
+        color;
+
+    label.textContent =
+        text;
+
+    label.style.color =
+        color;
+}
+
+
+function setRule(id, active, text) {
+
+    const element =
+        document.getElementById(id);
+
+    element.textContent =
+        (active ? "✓ " : "○ ") +
+        text;
+
+    element.classList.toggle(
+        "ok",
+        active
+    );
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function initializeDates() {
+
+    const today =
+        new Date();
+
+    const year =
+        today.getFullYear();
+
+    document.getElementById(
+        "dateFrom"
+    ).value =
+        `${year}-01-01`;
+
+    document.getElementById(
+        "dateTo"
+    ).value =
+        `${year}-12-31`;
+}
+
+
+function generateDates() {
+
+    const fromValue =
+        document.getElementById(
+            "dateFrom"
+        ).value;
+
+    const toValue =
+        document.getElementById(
+            "dateTo"
+        ).value;
+
+    const count =
+        Math.max(
+            1,
+            Math.min(
+                50,
+                Number(
+                    document.getElementById(
+                        "dateCount"
+                    ).value
+                )
+            )
+        );
+
+    const from =
+        new Date(
+            fromValue + "T00:00:00"
+        );
+
+    const to =
+        new Date(
+            toValue + "T23:59:59"
+        );
+
+    if (
+        Number.isNaN(from.getTime()) ||
+        Number.isNaN(to.getTime()) ||
+        from > to
+    ) {
+
+        document.getElementById(
+            "dateResult"
+        ).textContent =
+            "Intervallo di date non valido.";
+
+        return;
+    }
+
+
+    const results = [];
+
+    const difference =
+        to.getTime() -
+        from.getTime();
+
+
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
+
+        const randomTime =
+            from.getTime() +
+            Math.floor(
+                Math.random() *
+                difference
+            );
+
+        /*
+           Per le date usiamo la casualità
+           crittografica anche qui.
+        */
+
+        const randomOffset =
+            secureRandom(
+                Math.min(
+                    difference + 1,
+                    4294967296
+                )
+            );
+
+        let timestamp;
+
+        if (difference + 1 <= 4294967296) {
+
+            timestamp =
+                from.getTime() +
+                randomOffset;
+
+        } else {
+
+            const ratio =
+                secureRandom(1000000) /
+                1000000;
+
+            timestamp =
+                from.getTime() +
+                Math.floor(
+                    difference * ratio
+                );
+        }
+
+        const date =
+            new Date(timestamp);
+
+        results.push(
+            formatDate(date)
+        );
+    }
+
+
+    document.getElementById(
+        "dateResult"
+    ).textContent =
+        results.join("\n");
+}
+
+
+function formatDate(date) {
+
+    return new Intl.DateTimeFormat(
+        "it-IT",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    ).format(date);
+}
+
+
+/* =====================================================
+   AVVIO
+===================================================== */
+
+initializeDates();
+
+generatePassword();
+
+generatePin();
+
+generateNumbers();
+
+generateColor();
+
+</script>
+
+</body>
+</html>
